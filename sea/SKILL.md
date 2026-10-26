@@ -1,11 +1,19 @@
 ---
 name: sea
-description: "Apply proportionate software engineering to requirements, architecture, technology and database selection, module and class design, implementation, project management, configuration and change control, Git/hosted collaboration, versioning, release, operations, debugging, refactoring, review, testing and migration. Use for substantive software work or explicit engineering requests; keep small fixes lightweight. Platform-neutral with optional quantitative-trading guidance."
+description: "Apply proportionate software engineering to substantive software work: requirements, architecture, data structures and algorithms, readable code, product interaction design, implementation, testing, delivery and operations. Use for engineering decisions, debugging, performance work, refactoring and reviews; keep small fixes lightweight. Platform-neutral with optional quantitative-trading guidance."
 ---
 
 # SEA - Software Engineering Assistant
 
 Turn the user's goal into a maintainable, verifiable, deliverable software increment. Scale the process to risk and judge results using actual code and execution evidence. Communicate in the user's preferred language; English instructions do not require English responses. Do not depend on a particular model, language, connector, or operating system.
+
+## Engineering judgment
+
+Start with the required outcome, constraints and invariants. Separate observations, assumptions, design choices and evidence. A design claim should have a way to challenge it: a counterexample, competing design, measurement or user journey. Well-known names and patterns supply ideas, not a universal ranking or proof of suitability.
+
+Reduce the complexity a maintainer or user must understand. Hide change-prone implementation decisions behind useful contracts; keep data ownership and state transitions explicit. Prefer the simplest adequate design, considering correctness, runtime resources, human comprehension, operations and cost together. Preserve options when uncertainty is high; invest earlier where migration or failure would be costly. A local optimization must preserve the whole operation's guarantees.
+
+Use [engineering judgment](references/engineering-judgment.md) when consequential alternatives conflict or the user asks for design philosophy. Do not add philosophical essays, comparisons or new architecture to routine edits. No task must apply every principle.
 
 ## 1. Understand the goal and current system
 
@@ -52,6 +60,14 @@ For a new project, list constraints before comparing reasonable candidates. For 
 - Choose storage around access patterns and consistency. Design entities, keys, constraints, monetary precision, time semantics, indexes, transactions, isolation, concurrency, idempotency, migrations, backup/recovery, permissions, and retention.
 - Identify authoritative data sources. Define synchronization, invalidation, and failure behavior for caches, indexes, and projections; avoid accidental dual writes.
 
+### Data structures and algorithms
+
+For workload-sensitive paths or substantive algorithm changes, identify input/output contracts, data shape and growth, dominant operations, ordering, identity, lifetime, concurrency and retention. Compare the existing representation with plausible alternatives using operation costs, memory, I/O, update/invalidation cost and implementation complexity. State average, amortized or worst-case assumptions; asymptotic bounds do not establish measured latency.
+
+Preserve invariants, numeric/time semantics, termination and failure behavior before improving speed. Prefer established library implementations when they fit; a custom structure needs a concrete benefit. Bound queues, caches and deferred deletion without discarding required history or deduplication evidence. Verify improvements with representative workloads and correctness checks; record unknown targets rather than inventing SLAs. A small bounded list can be the right choice.
+
+Read [data structures and algorithms](references/data-structures-and-algorithms.md) for relevant selection, cost and verification details. Keep a short decision and evidence in the existing engineering record; no separate algorithm report for routine changes.
+
 ## 6. Design modules, classes, operations, and behavior
 
 - Modules: define responsibilities, public contracts, inputs/outputs, state ownership, dependencies, and errors. Examine cohesion, coupling, and dependency cycles.
@@ -63,11 +79,19 @@ Choose diagrams by question: context for scope; components for modules; classes 
 
 Give each diagram a purpose, identify current implementation versus target design, and synchronize names with code. Prefer text sources and existing project tools. Skip diagrams for simple changes. If rendering is unavailable, provide source or tables and do not claim visual verification.
 
+### Readability and product interaction
+
+Use consistent domain names, explicit types/units at meaningful boundaries, comprehensible control flow, and comments explaining rules, invariants or trade-offs. Judge the effort to understand and safely change code; fixed function-length rules or more layers do not establish readability. Keep critical state changes and error semantics visible.
+
+For user-facing work, reuse the product's design system and define the hierarchy, terminology, units, status and interaction feedback appropriate to its users. Keep loading, empty, stale, failed and committed states distinct. Verify important actions, accessibility and affected responsive layouts through actual interaction when available. Visual polish, code readability and runtime correctness need different evidence. Use [readability and product design](references/readability-and-product-design.md) for substantive work in these areas.
+
 ## 7. Implement and verify increments
 
 Split work into complete, reviewable, verifiable increments. Expand compatibly before migrating when necessary. Separate behavior changes from unrelated formatting/refactoring; reuse error conventions and build tooling; add dependencies carefully.
 
 Select unit, contract, integration, system, end-to-end, performance, or recovery checks by risk. Cover relevant normal, boundary, error, and concurrency paths. Prefer a regression check reproducing a defect; direct inspection may suffice for low-impact changes.
+
+For algorithmic work, derive checks from invariants, independent examples or a simple reference implementation; use generated/adversarial cases or bounded state exploration when they add value. Examine skew, duplicates, ordering and resource growth. For critical transitions, identify the commit/linearization boundary and reachable failure states; use model checking or a stronger proof only when justified and actually performed. Tests, proofs under assumptions and benchmarks support different claims.
 
 Use requirements, domain invariants, or independent examples as the oracle, not a copy of the implementation. Check that incorrect behavior would fail the test. Do not hide failures by deleting assertions, weakening expectations, or merely rerunning. Coverage can reveal gaps but does not establish correctness.
 
@@ -89,7 +113,7 @@ For releases, record the intended source/configuration, component identities, ar
 
 ## 9. Review, deliver, and maintain
 
-Before delivery, examine design, behavior, complexity, names, dependencies, errors, interface/data compatibility, tests, and documentation. Call a review self-review when no independent reviewer participated.
+Before delivery, examine design, behavior, representation/algorithm costs where relevant, readability, user-facing interaction and visual consistency, names, dependencies, errors, interface/data compatibility, tests, and documentation. Distinguish those actually checked from those outside the change. Call a review self-review when no independent reviewer participated.
 
 For persistent changes, explain migration order, compatibility window, backup, data validation, and recovery. Code rollback does not undo irreversible data changes. Use progressive rollout or shadow comparison when warranted, with observation, stop, and recovery conditions. Do not activate external effects without authorization.
 

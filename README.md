@@ -47,6 +47,8 @@ See [architecture review](docs/architecture-review.md) for priorities and eviden
 - Requirements, acceptance criteria, nonfunctional constraints, and traceability.
 - Lifecycle selection: staged, iterative, V-model verification, and risk-reduction prototypes.
 - Architecture, technology selection, language/framework trade-offs, and database design.
+- Workload-driven data structures and algorithms, complexity, resource bounds and measurable trade-offs.
+- Readable code, useful interfaces, product interaction, visual consistency and accessibility evidence.
 - Module responsibilities, class attributes and operations, contracts, state, and dependencies.
 - Context, component, class, sequence, state, flow, ER, and deployment diagrams when useful.
 - Incremental implementation, meaningful testing, self-review, migrations, recovery, and delivery.
@@ -57,6 +59,18 @@ See [architecture review](docs/architecture-review.md) for priorities and eviden
 - An optional quantitative-trading extension, separate from the general workflow.
 
 Small edits stay lightweight. Critical state changes receive deeper analysis. SEA does not require every document or diagram for every task.
+
+## Engineering judgment and algorithm selection
+
+Use goals, constraints, invariants and evidence to choose a design. The updated core explicitly covers workload, access patterns, average/amortized/worst-case costs, memory and I/O, representation consistency, and failure/recovery semantics. A small bounded list can be appropriate; complex structures or formal methods need a concrete reason.
+
+Load details only when relevant:
+
+- [Engineering judgment](sea/references/engineering-judgment.md): information hiding, cognitive complexity, reversibility, end-to-end guarantees and competing principles.
+- [Data structures and algorithms](sea/references/data-structures-and-algorithms.md): candidate representations, costs, bounds and verification.
+- [Readability and product design](sea/references/readability-and-product-design.md): maintainable contracts and useful user journeys with distinct evidence.
+
+See [update verification](docs/design-methods-update.md) for the limited fresh-context checks. These sources and checks do not establish a universally best methodology or all-task agent quality. Routine edits remain lightweight.
 
 ## Use with an AI assistant
 

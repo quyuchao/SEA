@@ -29,6 +29,8 @@ Trim to risk and reuse existing records. Do not invent metrics or implementation
 - Consequential technology decisions: constraints, candidates, rationale, costs, reconsideration.
 - Necessary diagrams: current/target, question answered, source and code symbols.
 - Compatibility, transactions, concurrency, idempotency, failure, recovery:
+- When relevant, data/algorithm decision: workload and growth, dominant operations, candidates, time/space/I/O costs and assumptions, bounds/invalidation, chosen trade-off and measurement evidence:
+- When relevant, readability/product design: names and boundary types, change locality, existing visual language, critical journeys, states/accessibility and actual inspection:
 
 ## Increments and results
 

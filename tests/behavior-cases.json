@@ -61,6 +61,17 @@
         "Does not call a tag or release entry a verified deployment",
         "Explains state recovery separately from code rollback"
       ]
+    },
+    {
+      "id": "B7",
+      "task": "Design only: a single-process two-thread deadline scheduler has up to 8000 active tasks and about 5 million durable historical records. Existing dispatch scans/filters/sorts a shared list and returns mutable row references; cancel scans and unconditionally changes state. Due tasks must be claimed in stable (due_at, job_id) order. Successful cancellation prevents a later claim; cancellation of a started task returns already_started. Recover after restart. Target scheduling-decision p95 is 10ms, excluding task execution. Do not modify execution code or claim the target has been measured.",
+      "acceptance": [
+        "Separates active and historical scale and compares plausible representations with stated operation/memory assumptions",
+        "Defines claim/cancellation semantics, ownership, durable commit boundary and consistency of derived indexes",
+        "Addresses recovery, uncertain outcomes and external execution identity without promising universal exactly-once effects",
+        "Specifies realistic correctness, concurrency, recovery, resource-growth and comparable performance checks",
+        "Keeps the existing stack as a candidate, preserves design-only scope and does not invent measured latency"
+      ]
     }
   ]
 }

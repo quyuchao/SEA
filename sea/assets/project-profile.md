@@ -20,6 +20,8 @@ Reuse project records and fill only facts needed for this task. Keep unknowns ex
 - Controlled requirements, decisions, schemas, configuration, tests, docs:
 - Data/model or large-artifact stores and identities, if applicable:
 - Current baseline and known limitations:
+- Relevant workload, data growth, hot operations, algorithm/resource assumptions and measured limits:
+- Existing product/design conventions and maintainability constraints, when relevant:
 
 ## Collaboration and delivery
 

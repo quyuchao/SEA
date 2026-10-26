@@ -1,11 +1,19 @@
 ---
 name: sea
-description: "Apply proportionate software engineering to requirements, architecture, technology and database selection, module and class design, implementation, project management, configuration and change control, Git/hosted collaboration, versioning, release, operations, debugging, refactoring, review, testing and migration. Use for substantive software work or explicit engineering requests; keep small fixes lightweight. Platform-neutral with optional quantitative-trading guidance."
+description: "Apply proportionate software engineering to substantive software work: requirements, architecture, data structures and algorithms, readable code, product interaction design, implementation, testing, delivery and operations. Use for engineering decisions, debugging, performance work, refactoring and reviews; keep small fixes lightweight. Platform-neutral with optional quantitative-trading guidance."
 ---
 
 # SEA - Software Engineering Assistant
 
 Turn the user's goal into a maintainable, verifiable, deliverable software increment. Scale the process to risk and judge results using actual code and execution evidence. Communicate in the user's preferred language; English instructions do not require English responses. Do not depend on a particular model, language, connector, or operating system.
+
+## Engineering judgment
+
+Start with the required outcome, constraints and invariants. Separate observations, assumptions, design choices and evidence. A design claim should have a way to challenge it: a counterexample, competing design, measurement or user journey. Well-known names and patterns supply ideas, not a universal ranking or proof of suitability.
+
+Reduce the complexity a maintainer or user must understand. Hide change-prone implementation decisions behind useful contracts; keep data ownership and state transitions explicit. Prefer the simplest adequate design, considering correctness, runtime resources, human comprehension, operations and cost together. Preserve options when uncertainty is high; invest earlier where migration or failure would be costly. A local optimization must preserve the whole operation's guarantees.
+
+Use [engineering judgment](#appendix-1) when consequential alternatives conflict or the user asks for design philosophy. Do not add philosophical essays, comparisons or new architecture to routine edits. No task must apply every principle.
 
 ## 1. Understand the goal and current system
 
@@ -52,6 +60,14 @@ For a new project, list constraints before comparing reasonable candidates. For 
 - Choose storage around access patterns and consistency. Design entities, keys, constraints, monetary precision, time semantics, indexes, transactions, isolation, concurrency, idempotency, migrations, backup/recovery, permissions, and retention.
 - Identify authoritative data sources. Define synchronization, invalidation, and failure behavior for caches, indexes, and projections; avoid accidental dual writes.
 
+### Data structures and algorithms
+
+For workload-sensitive paths or substantive algorithm changes, identify input/output contracts, data shape and growth, dominant operations, ordering, identity, lifetime, concurrency and retention. Compare the existing representation with plausible alternatives using operation costs, memory, I/O, update/invalidation cost and implementation complexity. State average, amortized or worst-case assumptions; asymptotic bounds do not establish measured latency.
+
+Preserve invariants, numeric/time semantics, termination and failure behavior before improving speed. Prefer established library implementations when they fit; a custom structure needs a concrete benefit. Bound queues, caches and deferred deletion without discarding required history or deduplication evidence. Verify improvements with representative workloads and correctness checks; record unknown targets rather than inventing SLAs. A small bounded list can be the right choice.
+
+Read [data structures and algorithms](#appendix-2) for relevant selection, cost and verification details. Keep a short decision and evidence in the existing engineering record; no separate algorithm report for routine changes.
+
 ## 6. Design modules, classes, operations, and behavior
 
 - Modules: define responsibilities, public contracts, inputs/outputs, state ownership, dependencies, and errors. Examine cohesion, coupling, and dependency cycles.
@@ -63,11 +79,19 @@ Choose diagrams by question: context for scope; components for modules; classes 
 
 Give each diagram a purpose, identify current implementation versus target design, and synchronize names with code. Prefer text sources and existing project tools. Skip diagrams for simple changes. If rendering is unavailable, provide source or tables and do not claim visual verification.
 
+### Readability and product interaction
+
+Use consistent domain names, explicit types/units at meaningful boundaries, comprehensible control flow, and comments explaining rules, invariants or trade-offs. Judge the effort to understand and safely change code; fixed function-length rules or more layers do not establish readability. Keep critical state changes and error semantics visible.
+
+For user-facing work, reuse the product's design system and define the hierarchy, terminology, units, status and interaction feedback appropriate to its users. Keep loading, empty, stale, failed and committed states distinct. Verify important actions, accessibility and affected responsive layouts through actual interaction when available. Visual polish, code readability and runtime correctness need different evidence. Use [readability and product design](#appendix-3) for substantive work in these areas.
+
 ## 7. Implement and verify increments
 
 Split work into complete, reviewable, verifiable increments. Expand compatibly before migrating when necessary. Separate behavior changes from unrelated formatting/refactoring; reuse error conventions and build tooling; add dependencies carefully.
 
 Select unit, contract, integration, system, end-to-end, performance, or recovery checks by risk. Cover relevant normal, boundary, error, and concurrency paths. Prefer a regression check reproducing a defect; direct inspection may suffice for low-impact changes.
+
+For algorithmic work, derive checks from invariants, independent examples or a simple reference implementation; use generated/adversarial cases or bounded state exploration when they add value. Examine skew, duplicates, ordering and resource growth. For critical transitions, identify the commit/linearization boundary and reachable failure states; use model checking or a stronger proof only when justified and actually performed. Tests, proofs under assumptions and benchmarks support different claims.
 
 Use requirements, domain invariants, or independent examples as the oracle, not a copy of the implementation. Check that incorrect behavior would fail the test. Do not hide failures by deleting assertions, weakening expectations, or merely rerunning. Coverage can reveal gaps but does not establish correctness.
 
@@ -89,7 +113,7 @@ For releases, record the intended source/configuration, component identities, ar
 
 ## 9. Review, deliver, and maintain
 
-Before delivery, examine design, behavior, complexity, names, dependencies, errors, interface/data compatibility, tests, and documentation. Call a review self-review when no independent reviewer participated.
+Before delivery, examine design, behavior, representation/algorithm costs where relevant, readability, user-facing interaction and visual consistency, names, dependencies, errors, interface/data compatibility, tests, and documentation. Distinguish those actually checked from those outside the change. Call a review self-review when no independent reviewer participated.
 
 For persistent changes, explain migration order, compatibility window, backup, data validation, and recovery. Code rollback does not undo irreversible data changes. Use progressive rollout or shadow comparison when warranted, with observation, stop, and recovery conditions. Do not activate external effects without authorization.
 
@@ -101,23 +125,138 @@ If asked to improve engineering effectiveness, define application-level baseline
 
 This file works independently. Load a reference only when present and relevant. In single-file use, follow the core rules without pretending to read missing resources.
 
-- [Requirements and traceability](#appendix-1): ambiguous acceptance or system/critical work.
-- [Architecture, technology, and data](#appendix-2): stack, contract, module, and persistence decisions.
-- [Detailed design and diagrams](#appendix-3): complex classes, state, and collaboration.
-- [Verification and delivery](#appendix-4): behavior, migration, or release work.
-- [Quantitative trading](#appendix-5): trading, market data, backtesting, and model research only.
-- [Project management](#appendix-6): multi-step planning, task status, risk, estimates, and debt.
-- [Configuration and changes](#appendix-7): controlled items, baselines, impact, and traceability.
-- [Git and collaboration](#appendix-8): repository work, integration, commits, pushes, and PRs.
-- [Versioning and release](#appendix-9): component compatibility, release artifacts, deployment, and recovery.
-- [Operations and maintenance](#appendix-10): operability, incidents, upgrades, and retirement.
-- [Project profile template](#appendix-11): unfamiliar or long-lived projects; trim to actual needs.
-- [Cross-AI use](#appendix-12): migration and capability limits.
-- [Official sources](#appendix-13): attribution, evidence boundaries, and updates.
-- [Engineering record template](#appendix-14): trim to risk; do not generate paperwork automatically.
+- [Requirements and traceability](#appendix-4): ambiguous acceptance or system/critical work.
+- [Architecture, technology, and data](#appendix-5): stack, contract, module, and persistence decisions.
+- [Detailed design and diagrams](#appendix-6): complex classes, state, and collaboration.
+- [Verification and delivery](#appendix-7): behavior, migration, or release work.
+- [Quantitative trading](#appendix-8): trading, market data, backtesting, and model research only.
+- [Project management](#appendix-9): multi-step planning, task status, risk, estimates, and debt.
+- [Configuration and changes](#appendix-10): controlled items, baselines, impact, and traceability.
+- [Git and collaboration](#appendix-11): repository work, integration, commits, pushes, and PRs.
+- [Versioning and release](#appendix-12): component compatibility, release artifacts, deployment, and recovery.
+- [Operations and maintenance](#appendix-13): operability, incidents, upgrades, and retirement.
+- [Project profile template](#appendix-14): unfamiliar or long-lived projects; trim to actual needs.
+- [Cross-AI use](#appendix-15): migration and capability limits.
+- [Official sources](#appendix-16): attribution, evidence boundaries, and updates.
+- [Engineering record template](#appendix-17): trim to risk; do not generate paperwork automatically.
 
 
 # Appendix 1
+
+# Engineering judgment and design philosophy
+
+Use for consequential decisions or explicit discussion of engineering philosophy. These are decision aids, not mandatory ceremonies. Sources and adoption boundaries are maintained in sources.md. No source establishes a universally best architecture, algorithm or working method.
+
+## Turn principles into decisions
+
+| Perspective | Practical question | Consequence and limit |
+|---|---|---|
+| Purpose and evidence | What observable outcome is needed, and what evidence could refute our proposed solution? | Separate requirements, observations and hypotheses. An elegant model of the wrong problem remains wrong. |
+| Information hiding | Which design decision is likely to change, and who currently has to know it? | Localize volatility behind a useful contract. More files or wrappers do not by themselves reduce coupling. |
+| Cognitive complexity | How much context must a maintainer hold to make one safe change? | Improve names, interfaces, ownership and locality. A short function can still conceal a distributed state machine. |
+| Invariants and state | Which conditions must survive every reachable transition and failure? | Define valid states, identity, units and commit boundaries. Encapsulation alone does not prove atomicity or thread safety. |
+| Workload and whole-system cost | Which operations dominate, at what scale and distribution? | Compare runtime, memory, I/O, mutation cost and human/operational cost. An index that speeds reads adds write and consistency work. |
+| Reversibility and uncertainty | What would make us change this decision, and what would reversal cost? | Keep cheap-to-change choices simple; reduce risk early for costly state/protocol boundaries. Deferring a feature does not excuse neglecting known recovery needs. |
+| End-to-end reasoning | Where can the required business result actually be established? | An acknowledgement or queue guarantee may not establish a committed application effect. Place validation, identity and reconciliation where enough context exists. |
+| Feedback and evolution | What is the smallest complete change that tests this assumption? | Use observations, incremental delivery and explicit revisit conditions. A prototype, mock, benchmark or passing test supports only its measured scope. |
+
+## Reconcile competing advice
+
+- Simplicity and performance: retain a clear baseline until workload evidence or a stated constraint justifies complexity. A necessary index or batching scheme can simplify the overall system; the fewest lines are not automatically simplest.
+- Abstraction and locality: extract a boundary when it hides a real decision, owns an invariant or removes meaningful duplication. Keep closely related logic together when splitting it would force readers to reconstruct the same operation across files.
+- Future flexibility and delivery: separate established variation from imagined possibilities. Prefer a reversible local decision for uncertainty; address known high-impact migrations before they become irreversible.
+- Immutability and cost: immutable snapshots can simplify reasoning; large copies may consume memory or latency budgets. Explain ownership and synchronization for either design.
+- Reliability and responsiveness: choose timeout, retry and backpressure behavior around the operation's semantics. Dropping disposable observations differs from losing durable commands. Do not claim universal exactly-once effects without a defined identity, consistency boundary and recovery protocol.
+- Formal reasoning and experiments: specifications reveal ambiguity and reachable states; implementation checks expose assumptions about arithmetic, runtimes, storage and users. Choose the useful strength of each rather than claiming one replaces the others.
+
+## Minimal decision record
+
+For a consequential choice, record in the existing project record: problem and constraints; current evidence; plausible alternatives; decision and negative consequences; invariants and verification; conditions for reconsideration. Mark uncertainty explicitly. For a routine local edit, a direct implementation and appropriate inspection may be enough.
+
+Avoid authority-based choices, pattern catalogs presented as architecture, invented benchmark results, automatic language/database replacements, and numerical quality scores with no defensible measurement. The goal is better software and clearer decisions, not more documentation.
+
+
+# Appendix 2
+
+# Data structures and algorithms
+
+Use when algorithmic behavior, workload or persistent representation materially affects correctness, growth or performance. For small bounded work, apply the reasoning directly without a report. This is a selection guide, not a requirement to replace lists, dictionaries or an existing database.
+
+## 1. Model the operation and workload
+
+Establish inputs, outputs, identity/equality, ordering/tie rules, mutation, units and precision. Distinguish unknown, absent and zero. Identify authoritative state and derived structures.
+
+Define relevant scale variables: active records, historical records, groups, window size, result count, payload bytes, concurrent writers or dependency edges. Inspect observed or expected distributions: skew, bursts, duplicates, out-of-order arrival and query/update ratios. Mark unmeasured values and targets as unknown. Do not invent an SLA.
+
+List dominant operations and their frequency: lookup, append, cancellation/deletion, min/max, range search, sorting, aggregation, joins, graph traversal or incremental updates. Count costs over the whole operation: a linear scan inside a per-group loop can dominate a constant-time individual lookup. Consider serialization, copies, allocations, locks, network/disk trips and index maintenance.
+
+## 2. Compare plausible representations
+
+These costs assume standard implementations and bounded-cost comparisons/hashing; inspect runtime-specific behavior when it matters.
+
+| Need | Candidate | Trade-off to verify |
+|---|---|---|
+| Small bounded or sequential collection | Array/list | Simple contiguous iteration; arbitrary search/deletion can be linear. Repeated full copies may dominate. |
+| Exact identity lookup or membership | Hash map/set | Typically average constant-time lookup with additional memory; collision, resizing and key-cost assumptions matter. It does not supply chronological/range order. |
+| FIFO or recent window | Deque/ring buffer | Efficient end operations and explicit capacity; arbitrary ID removal or indexing may still be linear. Define overflow and eviction behavior. |
+| Next priority/deadline | Heap, optionally with ID index | Typical peek O(1), insertion/pop O(log n); arbitrary cancellation needs an indexed structure or lazy deletion. Bound tombstones and account for compaction latency. |
+| Ordered/range queries or durable history | Sorted structure/database index | Evaluate insertion, deletion, ranges and matching predicates/order. Use execution plans and result cardinality; extra indexes have write/storage costs. |
+| Batch numerical or analytical work | Contiguous/columnar arrays and vectorized kernels | Can reduce interpreter/allocation cost; intermediate copies, sparse data, memory pressure and numeric behavior may negate the benefit. |
+| Dependency relations | Adjacency representation | Traversal/topological ordering can be O(V+E); define cycles, disconnected components and deterministic tie-breaking. |
+
+For top-k selection, compare a bounded heap (often O(n log k), O(k) working storage) with sorting when the full order is needed or inputs are small. For rolling statistics, compare recomputation with incremental state; verify deletion/expiry, rounding drift and recovery. For pagination, distinguish simple offset pagination from cursor/keyset pagination for deep history; define a stable unique ordering and behavior under concurrent inserts/updates. Do not promise snapshot pagination without a snapshot contract.
+
+Prefer existing library/database primitives. Introduce custom trees, indexes or schedulers only for a demonstrated requirement, with tests of update, deletion and failure paths.
+
+## 3. Preserve semantics and consistency
+
+- Define invariants, preconditions/postconditions and termination or cancellation. Check empty/singleton inputs, duplicate identities, ties, bounds, overflow, NaN/infinity, precision, time zones and out-of-order data where relevant.
+- Distinguish average, amortized and worst-case bounds; include working memory and retained memory. Amortized throughput can conceal a pause that violates a latency requirement.
+- Specify who owns and mutates each representation. Define synchronization or version checks and how authoritative data, lookup indexes, group indexes and aggregates change together. Identify the commit/linearization boundary; test interrupted or competing changes.
+- Separate persistent history from the active working set. Bound caches, queues and deferred deletion; define backpressure, eviction and rebuild/reconciliation behavior. Retain required audit and deduplication evidence or provide a durable equivalent before dropping it.
+- For approximate/probabilistic algorithms, state the error/failure model and whether the domain permits it. Do not replace exact money, authorization or required event membership with an approximation merely for speed.
+
+## 4. Verify and record the decision
+
+Use independent examples, invariants, a simple trusted baseline, differential/property tests, or bounded state exploration as appropriate. Useful checks include conservation, stable tie order, query equivalence after indexing, and replay/restart equivalence. Test adversarial distributions and sustained resource growth, not just happy-path averages.
+
+For a performance claim, keep inputs and semantic work comparable; record data size/distribution, versions/environment, warmup, repetitions, statistics and what was mocked. Profile the actual hot path; compare CPU, I/O, peak/retained memory or lock waiting as relevant. State when measurement overhead, background load or small samples limit the conclusion. Big-O analysis is not a latency measurement, and a faster result with missing required work is not an equivalent optimization.
+
+Record only the consequential decision: workload and invariants; baseline/candidates; operation and memory costs with assumptions; chosen trade-off; correctness and measurement evidence; remaining limits/revisit trigger. Reuse the existing engineering record. A representation decision must not silently change the user's business algorithm or risk policy.
+
+
+# Appendix 3
+
+# Readability and product design
+
+Use the relevant part for substantive code/design changes or UI work. Internal maintainability and user-facing usability are different quality dimensions; neither is established solely by passing backend tests. A small copy edit usually needs direct inspection, not a design-system project.
+
+## Readable and changeable code
+
+- Use domain names that distinguish identities, units, timestamps and lifecycle states. Make meaningful boundary contracts explicit with the project's type/schema conventions. Dictionaries are useful for flexible metadata; critical records need discoverable fields and validation, not implicit assumptions spread among callers.
+- Organize around responsibilities, ownership and reasons to change. Hide representation/algorithm details behind a useful interface while keeping important state transitions and failure outcomes visible. A collection of forwarding layers or getters is not evidence of effective modularity.
+- Read the operation from a caller's perspective: what can be assumed, what changes, what can fail, and what may be retried? Keep validation and side effects in a comprehensible order. Separate pure calculations when doing so improves reasoning and testing; do not fragment an inseparable critical section to meet a line-count rule.
+- Comments explain domain rules, invariants, non-obvious choices or constraints. Avoid narrating syntax, speculative TODOs and stale architecture claims. Document performance-motivated complexity and how to validate its benefit.
+- Review dependency direction, shared mutation, error handling and concurrency. Ask whether a maintainer can locate the owner of a rule and identify the affected tests without traversing unrelated modules. Prefer consistent local idioms; keep broad formatting/refactoring out of an unrelated fix.
+
+Readability review can use a concrete change scenario: if one rule changes, where is it represented and how many contracts must be understood? Explain known problems rather than declaring the code clean from its naming, file count or test count.
+
+## Product and visual design
+
+Understand the user's primary tasks, information priority and costly mistakes. Reuse the existing design system where suitable. For a new surface, establish a restrained visual language appropriate to the domain: hierarchy, spacing, typography, component behavior, units, numeric/date formatting and status semantics. A particular color palette or aesthetic is not universally correct.
+
+Make important actions discoverable in the layouts where users need them. Distinguish submitting, pending, committed, failed, uncertain, stale and empty states; show feedback supported by authoritative state. Preserve useful form data and stable operation identity across uncertain responses when the operation requires it. Frontend disabling does not replace server-side correctness or authorization.
+
+Use labels, focus order, keyboard operation, visible focus, suitable contrast, scalable text and status cues beyond color as relevant. Respect reduced-motion preferences when animation is involved. Verify applicable requirements instead of claiming blanket WCAG conformance from a visual check.
+
+Use realistic long text, large/small numbers, empty/loading/error data and the affected screen widths. Check overflow, table scrolling, fixed actions, responsive hierarchy and useful failure recovery. Keep implementation details out of product language unless they help a user make a meaningful decision.
+
+## Evidence and completion
+
+For an affected user journey, inspect actual display and exercise the important interaction in an appropriate environment when tools permit. A screenshot supports appearance at that state/viewport; interaction supports that journey; build and type checks support other claims. Mocks or isolated previews do not prove production integration. Record what was actually checked, remaining limitations and necessary documentation/design-token updates.
+
+
+# Appendix 4
 
 # Requirements and traceability
 
@@ -136,7 +275,7 @@ Replace this example with real requirements. Describe acceptance through initial
 Use phases for stable dependencies, short iterations for exploration, and time-boxed prototypes with success and exit criteria for technical unknowns. A prototype answers its specific question; integration still requires verification.
 
 
-# Appendix 2
+# Appendix 5
 
 # Architecture, technology, and data
 
@@ -177,7 +316,7 @@ Define validation, identity/authorization, errors, versions, timeouts, cancellat
 Use the project's ADR convention for consequential choices: context/constraints, alternatives, decision, negative consequences, verification, and reconsideration triggers. Do not add ADRs for routine local decisions.
 
 
-# Appendix 3
+# Appendix 6
 
 # Detailed design and diagrams
 
@@ -233,7 +372,7 @@ classDiagram
 Diagram source does not prove idempotency, transactions, or concurrency correctness. Establish these through contracts, constraints, and verification evidence.
 
 
-# Appendix 4
+# Appendix 7
 
 # Verification and delivery
 
@@ -261,7 +400,7 @@ Choose shadow comparison, flags, or progressive cutover according to impact, wit
 Before completion, inspect design, behavior, errors, dependencies, compatibility, verification, and documentation. Distinguish self-review from independent review. Report implemented/verified/released/blocked separately. For effectiveness work, define application-level baselines, windows, and sources; consider speed, failures, rework, and recovery together rather than gaming metrics.
 
 
-# Appendix 5
+# Appendix 8
 
 # Quantitative trading extension
 
@@ -279,7 +418,7 @@ Load only for trading, market data, backtesting, or model research. Verify chang
 - Define migration boundaries when introducing vn.py, Qlib, or another framework. Avoid two execution/ledger writers with unclear ownership.
 
 
-# Appendix 6
+# Appendix 9
 
 # Project management
 
@@ -309,7 +448,7 @@ Record unresolved defects, technical debt, and accepted limitations with consequ
 Use GitHub Issues, Projects, or another tracker when available and authorized. Existing authorization persists; a plan or skill invocation alone does not authorize external mutations. Missing hosting tools must not block local planning or implementation.
 
 
-# Appendix 7
+# Appendix 10
 
 # Configuration and change management
 
@@ -338,7 +477,7 @@ Maintain enough traceability to answer: what changed, why, in which version, aga
 For data/model-driven systems, distinguish source-code revisions from data/model identity. Check that environments and reproducibility manifests do not silently drift. Record exceptions and residual uncertainty rather than claiming exact reproducibility without evidence.
 
 
-# Appendix 8
+# Appendix 11
 
 # Git and hosted collaboration
 
@@ -368,7 +507,7 @@ Update issue/PR state only when supported by actual evidence. Merge, release, an
 Keep adapters optional: GitHub, GitLab, other hosts, APIs, and local CLIs may differ. Verify current capabilities and permissions before relying on host-specific automation. A skill is not a credential or a permission grant.
 
 
-# Appendix 9
+# Appendix 12
 
 # Versions, integration, and releases
 
@@ -401,7 +540,7 @@ Define readiness, rollout order, observation, stopping, and recovery criteria. C
 Explain whether recovery uses rollback, roll-forward, restore, or compensation. Code rollback cannot undo incompatible schema changes, lost data, or external side effects. Validate recovery against the relevant invariants and keep release/deployment failures visible in task status.
 
 
-# Appendix 10
+# Appendix 13
 
 # Operations and maintenance
 
@@ -428,7 +567,7 @@ Integrate security through development and maintenance: assess relevant trust bo
 When retiring a component, identify consumers, replacement or migration, state retention/deletion, operational shutdown, and records that must remain traceable. Stop obsolete jobs and integrations only within authorized scope.
 
 
-# Appendix 11
+# Appendix 14
 
 # Project profile template
 
@@ -452,6 +591,8 @@ Reuse project records and fill only facts needed for this task. Keep unknowns ex
 - Controlled requirements, decisions, schemas, configuration, tests, docs:
 - Data/model or large-artifact stores and identities, if applicable:
 - Current baseline and known limitations:
+- Relevant workload, data growth, hot operations, algorithm/resource assumptions and measured limits:
+- Existing product/design conventions and maintainability constraints, when relevant:
 
 ## Collaboration and delivery
 
@@ -473,7 +614,7 @@ Reuse project records and fill only facts needed for this task. Keep unknowns ex
 - Defects/debt, upgrades, deprecations and revisit conditions:
 
 
-# Appendix 12
+# Appendix 15
 
 # Cross-AI use
 
@@ -505,7 +646,7 @@ With a loader, consult the target platform's current official installation instr
 Scripts are optional structural aids, not semantic review. The core does not require a particular shell, OS, connector, or cloud. Communicate in the user's preferred language even though skill instructions are English.
 
 
-# Appendix 13
+# Appendix 16
 
 # Official sources and adoption boundaries
 
@@ -527,6 +668,24 @@ Research checked: 2026-10-25. Public material does not represent every internal 
 
 Return to primary sources when updating. Recheck versions, support, capabilities, and installation paths when relevant. Old example versions are not current selection advice. Avoid extensive quotation or attributing SEA's synthesized rules as company originals.
 
+## Local engineering-judgment extension: 2026-10-26
+
+This user-requested extension adds explicit workload/algorithm selection, engineering judgment, readability and product-design guidance to the installed local SEA. It is a local adaptation, not an OpenAI official skill, a new verified upstream release, or an endorsement by the authors below. The previous sections retain their original research dates. Only the sources and portions listed here were checked for this addition; no claim is made to have read every cited book/course in full.
+
+| Primary source or academic reproduction | Checked URL | Adopted idea and boundary |
+|---|---|---|
+| E. W. Dijkstra, Notes on Structured Programming, EWD249, author archive | https://www.cs.utexas.edu/~EWD/transcriptions/EWD02xx/EWD249/EWD249.html | Structured reasoning, refinement, scale and assumptions about correctness; not a demand for a formal proof of every edit. |
+| D. L. Parnas, On the Criteria To Be Used in Decomposing Systems into Modules, academic transcription of the 1972 paper | https://www.cs.lafayette.edu/~gexia/cs301/resources/parnas.html | Responsibilities and information hiding around design decisions; the reproduction warns it is not guaranteed to match the original. The alternative UMD PDF was inaccessible during this check. |
+| MIT OCW 6.006, Introduction to Algorithms, Spring 2020, course overview | https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/ | Explicit computation models, representations and performance analysis; practical choices still require the actual runtime and workload. The SEA selection table is an engineering synthesis, not a copied course specification. |
+| John Ousterhout, Stanford CS190 Software Design Studio, Winter 2024, course overview | https://web.stanford.edu/~ouster/cs190-winter24/ | Complexity management, useful interfaces, information hiding, error handling, documentation and iterative review; no universal class/layer/line-count rule. |
+| Leslie Lamport, Specifying Systems, author's book overview and contents | https://lamport.azurewebsites.net/tla/book.html | Explicit state/specification thinking; model checking is an optional risk-driven verification technique. The full book was not reviewed for this addition. |
+| J. H. Saltzer, D. P. Reed and D. D. Clark, End-to-End Arguments in System Design, author-hosted paper | https://web.mit.edu/saltzer/www/publications/endtoend/endtoend.pdf | Place a guarantee where enough application context exists; lower-layer acknowledgements alone do not establish a committed business effect. SEA's transaction/idempotency rules are adaptations, not quotations. |
+| Martin Fowler, Yagni | https://martinfowler.com/bliki/Yagni.html | Avoid speculative features while retaining maintainable, evolvable design; no excuse to omit a known correctness or recovery requirement. |
+| Google Engineering Practices, What to look for in a code review | https://google.github.io/eng-practices/review/reviewer/looking-for.html | Review design, behavior, complexity, tests, names and actual UI impact; no claim that passing tests establishes readability. |
+| W3C WAI, WCAG 2.2 Quick Reference | https://www.w3.org/WAI/WCAG22/quickref/ | Relevant labels, keyboard/focus, contrast, reflow and interaction criteria; a visual inspection is not WCAG conformance certification. |
+
+The word "best" needs a context: goals, constraints, scale, failure costs and available evidence. SEA does not rank schools, authors or companies, force a named design methodology, or guarantee optimal output from an agent. Its added decision rules are original concise syntheses for this workflow, with assumptions and proportionality made explicit.
+
 ## Management and lifecycle additions
 
 Checked against the public resources discussed on 2026-10-25. IEEE public descriptions and indexed topic outlines were available; direct full-guide retrieval was unavailable, so this is not a claim to have read the complete guide. Apply these references proportionately, not as mandatory organizational ceremonies.
@@ -545,7 +704,7 @@ Checked against the public resources discussed on 2026-10-25. IEEE public descri
 | SLSA Provenance | https://slsa.dev/spec/v1.2/provenance | Trace artifact origin to source/build, without claiming an attained assurance level |
 
 
-# Appendix 14
+# Appendix 17
 
 # Engineering record template
 
@@ -578,6 +737,8 @@ Trim to risk and reuse existing records. Do not invent metrics or implementation
 - Consequential technology decisions: constraints, candidates, rationale, costs, reconsideration.
 - Necessary diagrams: current/target, question answered, source and code symbols.
 - Compatibility, transactions, concurrency, idempotency, failure, recovery:
+- When relevant, data/algorithm decision: workload and growth, dominant operations, candidates, time/space/I/O costs and assumptions, bounds/invalidation, chosen trade-off and measurement evidence:
+- When relevant, readability/product design: names and boundary types, change locality, existing visual language, critical journeys, states/accessibility and actual inspection:
 
 ## Increments and results
 
