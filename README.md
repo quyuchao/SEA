@@ -6,6 +6,42 @@
 
 SEA turns software goals into explicit requirements, proportionate design, reviewable implementation, and verification evidence. The skill and its references are written in English; assistants should still communicate in the user's preferred language.
 
+## Quick start
+
+Install using the third-party [skills CLI](https://github.com/vercel-labs/skills) with Node.js 22.20+ and npm:
+
+```sh
+npx skills add quyuchao/SEA --skill sea
+```
+
+Choose your agent, or specify one:
+
+```sh
+npx skills add quyuchao/SEA --skill sea -a codex
+npx skills add quyuchao/SEA --skill sea -a claude-code
+```
+
+Run in the target project; add `-g` for user-level installation. Reload the host as required. Ask it to use SEA (`$sea` where supported) and identify the actual core file read, task risk and relevant references. Installation, host discovery and actual task selection are separate states. Automatic selection depends on the host; ordinary ChatGPT conversations cannot register skills merely by opening a URL. These commands follow the installer interface; end-to-end installation testing remains pending.
+
+Use `npx skills list` to inspect installation, `npx skills check` for updates and `npx skills remove sea` to remove. Review installed destinations before removing or updating shared skills.
+
+## Architecture
+
+```mermaid
+flowchart TD
+ A["Agent discovers SEA metadata"] --> B["Core: goal, risk and acceptance"]
+ B --> C["Relevant engineering references"]
+ B --> D["Optional project templates"]
+ C --> E["Implementation and verification"]
+ D --> E
+ E --> F["Evidence and delivery status"]
+ F --> B
+```
+
+`sea/` is the installable package. The core routes to references only when relevant. Repository documentation and CI serve maintainers; `SEA.md` is a generated chat-only fallback, not the normal loading path.
+
+See [architecture review](docs/architecture-review.md) for priorities and evidence boundaries.
+
 ## What it covers
 
 - Requirements, acceptance criteria, nonfunctional constraints, and traceability.

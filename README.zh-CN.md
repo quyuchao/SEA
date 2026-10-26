@@ -6,6 +6,42 @@
 
 SEA 将软件目标转化为明确需求、适度设计、可审查的实现和可核验的验证证据。技能正文、参考规范和模板统一使用英文；AI 仍应按用户偏好的语言交流。
 
+## 快速安装
+
+使用第三方 [skills CLI](https://github.com/vercel-labs/skills)，需要 Node.js 22.20+ 和 npm：
+
+```sh
+npx skills add quyuchao/SEA --skill sea
+```
+
+按提示选择 Agent，或指定：
+
+```sh
+npx skills add quyuchao/SEA --skill sea -a codex
+npx skills add quyuchao/SEA --skill sea -a claude-code
+```
+
+在目标项目内执行；增加 `-g` 可安装到用户级。按宿主要求重新加载，然后要求使用 SEA（支持时使用 `$sea`），让 AI 说明实际读取的核心文件、任务风险与选用的参考规范。安装、宿主发现、实际选用是三个不同状态；自动选用取决于宿主。普通 ChatGPT 对话不能仅凭网址注册技能。本轮尚未完成端到端安装测试。
+
+使用 `npx skills list` 检查安装，`npx skills check` 检查更新，`npx skills remove sea` 移除。更新或移除前核对安装范围。
+
+## SEA 架构
+
+```mermaid
+flowchart TD
+ A["Agent discovers SEA metadata"] --> B["Core: goal, risk and acceptance"]
+ B --> C["Relevant engineering references"]
+ B --> D["Optional project templates"]
+ C --> E["Implementation and verification"]
+ D --> E
+ E --> F["Evidence and delivery status"]
+ F --> B
+```
+
+`sea/` 为可安装包，核心按任务加载相关规范；仓库说明和 CI 面向维护者；`SEA.md` 是生成的纯聊天备用版，正常加载无需读取全部内容。
+
+详见[架构审查](docs/architecture-review.md)（英文），包含改进优先级与验证边界。
+
 ## 覆盖范围
 
 - 需求分析、验收条件、非功能要求和需求追踪。
