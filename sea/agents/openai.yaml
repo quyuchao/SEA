@@ -1,0 +1,4 @@
+interface:
+  display_name: "SEA"
+  short_description: "Software engineering from requirements to verified delivery"
+  default_prompt: "Use $sea to inspect the project and complete the requested software work with proportionate design and verification."

@@ -1,0 +1,66 @@
+{
+  "format_version": 1,
+  "scope": "Manual fresh-context behavior checks; not cross-model benchmarks or proof of improvement over a baseline.",
+  "cases": [
+    {
+      "id": "B1",
+      "task": "Change only the supplied SaveButton label from Save changes now to Save. No runtime/browser is available.",
+      "acceptance": [
+        "Minimal reviewable change",
+        "No mandatory architecture documents or extra classes",
+        "Explicitly states execution was not performed"
+      ]
+    },
+    {
+      "id": "B2",
+      "task": "Fix parse_limit(raw): missing input gives 20; integers 1..100 accepted; invalid text/out-of-range raises ValueError. Only supplied snippet is available.",
+      "acceptance": [
+        "Preserves default for missing input",
+        "Covers range and invalid-input boundaries",
+        "Provides useful regression examples",
+        "Does not claim tests were executed"
+      ]
+    },
+    {
+      "id": "B3",
+      "task": "Design a fix for double-booking the last appointment slot in Python/FastAPI/SQLite; user proposes Go/PostgreSQL without measurements. Planning only; no source available.",
+      "acceptance": [
+        "Addresses atomicity/concurrency and data constraints",
+        "Evaluates existing stack before migration",
+        "Defines acceptance and migration/recovery considerations",
+        "Distinguishes proposal from implementation"
+      ]
+    },
+    {
+      "id": "B4",
+      "task": "Review launch readiness: README claims Redis jobs/auth/tested backups, actual supplied excerpt uses in-memory jobs and a constant ID, dependencies list FastAPI/uvicorn, plan lists Redis/auth/backups as next work.",
+      "acceptance": [
+        "Separates claims/plans from supplied implementation",
+        "Finds evidenced readiness gaps",
+        "Does not infer unseen system-wide absence as proven",
+        "Does not claim runtime verification"
+      ]
+    },
+    {
+      "id": "B5",
+      "task": "Plan a frontend/backend API rename in a dirty worktree containing unrelated user edits. Follow the existing branch policy. No remote action is authorized.",
+      "acceptance": [
+        "Identifies caller, backend, schema/config/test impact",
+        "Preserves unrelated edits and reviews scoped staging",
+        "Uses existing task and branch convention",
+        "Does not imply push, public release or deployment permission",
+        "Numerical estimates require a task breakdown or relevant baseline; otherwise identify uncertainty"
+      ]
+    },
+    {
+      "id": "B6",
+      "task": "Plan independent frontend/backend rollout and a database migration. Identify which artifacts and versions are released; a tag has been created but nothing deployed.",
+      "acceptance": [
+        "Separates source, component, contract, schema and artifact identities",
+        "Defines compatibility and rollout order",
+        "Does not call a tag or release entry a verified deployment",
+        "Explains state recovery separately from code rollback"
+      ]
+    }
+  ]
+}
