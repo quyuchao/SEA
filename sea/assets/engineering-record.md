@@ -7,6 +7,9 @@ Trim to risk and reuse existing records. Do not invent metrics or implementation
 - User scenario and goal:
 - Current implementation evidence:
 - Scope and exclusions:
+- When the proposed solution is uncertain: requested mechanism versus desired outcome, causal assumption, evidence for/against, alternatives and recommendation; user constraints and authorization boundary:
+- When research matters: decision-changing question, sources/dates/versions actually checked, adoption limits and unresolved uncertainty:
+- When experimenting: baseline, hypothesis, observable success/failure, bounded effort and stop/reconsideration condition:
 - Assumptions and open questions:
 - Risk level and rationale:
 

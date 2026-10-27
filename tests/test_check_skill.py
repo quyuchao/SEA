@@ -8,7 +8,7 @@ import unittest
 REPOSITORY = Path(__file__).resolve().parents[1]
 SOURCE = REPOSITORY / 'sea'
 SPEC = importlib.util.spec_from_file_location('sea_check', SOURCE / 'scripts/check_skill.py')
-EXPECTED_RESOURCES = ["references/engineering-judgment.md","references/data-structures-and-algorithms.md","references/readability-and-product-design.md","references/requirements.md","references/architecture-and-stack.md","references/design-and-diagrams.md","references/verification-and-delivery.md","references/quant-trading.md","references/project-management.md","references/configuration-and-change.md","references/git-and-collaboration.md","references/versioning-and-release.md","references/operations-and-maintenance.md","references/portability.md","references/sources.md","assets/engineering-record.md","assets/project-profile.md"]
+EXPECTED_RESOURCES = ["references/engineering-judgment.md","references/engineering-workflow.md","references/data-structures-and-algorithms.md","references/readability-and-product-design.md","references/requirements.md","references/architecture-and-stack.md","references/design-and-diagrams.md","references/verification-and-delivery.md","references/quant-trading.md","references/project-management.md","references/configuration-and-change.md","references/git-and-collaboration.md","references/versioning-and-release.md","references/operations-and-maintenance.md","references/portability.md","references/sources.md","assets/engineering-record.md","assets/project-profile.md"]
 CHECK = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(CHECK)
 

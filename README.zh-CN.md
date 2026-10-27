@@ -6,6 +6,8 @@
 
 SEA 将软件目标转化为明确需求、适度设计、可审查的实现和可核验的验证证据。技能正文、参考规范和模板统一使用英文；AI 仍应按用户偏好的语言交流。
 
+主入口现在以判断思想为核心：理解观察对象的生成与归属、使用语义、跨状态不变量，以及时间和身份变化下的演化。生命周期方法按需使用，不要求每次填写固定问卷。更新内容与证据边界见[判断思想更新](docs/judgment-update-20261027.md)。
+
 ## 快速安装
 
 使用第三方 [skills CLI](https://github.com/vercel-labs/skills)，需要 Node.js 22.20+ 和 npm：
@@ -29,8 +31,8 @@ npx skills add quyuchao/SEA --skill sea -a claude-code
 
 ```mermaid
 flowchart TD
- A["Agent discovers SEA metadata"] --> B["Core: goal, risk and acceptance"]
- B --> C["Relevant engineering references"]
+ A["Agent discovers SEA metadata"] --> B["Judgment: origin, meaning, invariants and evolution"]
+ B --> C["On-demand engineering methods and references"]
  B --> D["Optional project templates"]
  C --> E["Implementation and verification"]
  D --> E
@@ -66,7 +68,8 @@ flowchart TD
 
 相关细节按需读取：
 
-- [工程判断](sea/references/engineering-judgment.md)：信息隐藏、认知复杂度、可逆性、端到端保证与竞争原则的取舍。
+- [工程判断](sea/references/engineering-judgment.md)：生成与归属、情境语义、不变量、时间演化、证据和建设性质疑。
+- [工程方法](sea/references/engineering-workflow.md)：保留完整生命周期方法，按当前任务选择，不强制依次执行。
 - [数据结构与算法](sea/references/data-structures-and-algorithms.md)：候选结构、成本、资源边界和验证。
 - [可读性与产品设计](sea/references/readability-and-product-design.md)：可维护契约、用户流程及各自的验收证据。
 

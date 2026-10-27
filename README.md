@@ -6,6 +6,8 @@
 
 SEA turns software goals into explicit requirements, proportionate design, reviewable implementation, and verification evidence. The skill and its references are written in English; assistants should still communicate in the user's preferred language.
 
+The core now leads with judgment: model how observations are produced, what they mean to their users, which guarantees must survive changes, and how behavior evolves across time and identity. Lifecycle methods are on-demand tools, not a fixed questionnaire. See the [judgment update and evidence limits](docs/judgment-update-20261027.md).
+
 ## Quick start
 
 Install using the third-party [skills CLI](https://github.com/vercel-labs/skills) with Node.js 22.20+ and npm:
@@ -29,8 +31,8 @@ Use `npx skills list` to inspect installation, `npx skills check` for updates an
 
 ```mermaid
 flowchart TD
- A["Agent discovers SEA metadata"] --> B["Core: goal, risk and acceptance"]
- B --> C["Relevant engineering references"]
+ A["Agent discovers SEA metadata"] --> B["Judgment: origin, meaning, invariants and evolution"]
+ B --> C["On-demand engineering methods and references"]
  B --> D["Optional project templates"]
  C --> E["Implementation and verification"]
  D --> E
@@ -66,7 +68,8 @@ Use goals, constraints, invariants and evidence to choose a design. The updated 
 
 Load details only when relevant:
 
-- [Engineering judgment](sea/references/engineering-judgment.md): information hiding, cognitive complexity, reversibility, end-to-end guarantees and competing principles.
+- [Engineering judgment](sea/references/engineering-judgment.md): provenance, contextual meaning, invariants, evolution, evidence and constructive challenge.
+- [Engineering methods](sea/references/engineering-workflow.md): preserved lifecycle techniques, selected only when useful to the task.
 - [Data structures and algorithms](sea/references/data-structures-and-algorithms.md): candidate representations, costs, bounds and verification.
 - [Readability and product design](sea/references/readability-and-product-design.md): maintainable contracts and useful user journeys with distinct evidence.
 

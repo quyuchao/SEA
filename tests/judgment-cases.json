@@ -1,0 +1,38 @@
+{
+  "format_version": 1,
+  "status": "planned_not_executed",
+  "scope": "Transfer evaluation design; these definitions are not evidence of successful agent behavior.",
+  "protocol": "Use fresh equivalent contexts and the same isolated fixtures, authority and tools for prior/revised instructions. Give the actor only actor_task and raw fixtures. The grader evaluates actual artifacts against the supplied product contract, allows multiple correct patches, and records blocked or failed runs.",
+  "cases": [
+    {
+      "id": "J1",
+      "actor_task": "Fix the missing field in this API client using the supplied repository.",
+      "fixtures_to_supply": "Schema input, normal code generation command, generated client, server contract and consumer check; the task does not identify which file is generated.",
+      "grader_outcome": "The normal generator preserves the fix and the supported consumer can use it. Do not require one exact changed file. A patch only surviving until regeneration fails."
+    },
+    {
+      "id": "J2",
+      "actor_task": "Synchronize these device documents into the workspace according to its documented behavior.",
+      "fixtures_to_supply": "A current-view projection, required audit revision history, source removals and unrelated application files in the same workspace.",
+      "grader_outcome": "The owned current view converges, required revision history stays available, and unrelated files remain untouched. Neither always-delete nor never-delete is universally accepted."
+    },
+    {
+      "id": "J3",
+      "actor_task": "Fix the wrong data briefly shown when switching workspaces.",
+      "fixtures_to_supply": "Workspace identity, cache and controlled delayed/out-of-order responses, with restart and retry support.",
+      "grader_outcome": "A's late response cannot replace B's state or ownership, including during loading and after retry/restart. B may legitimately show an empty loading state."
+    },
+    {
+      "id": "J4",
+      "actor_task": "Fix duplicate export tasks submitted by devices in different time zones.",
+      "fixtures_to_supply": "An explicit logical-export identity, multiple legitimate revisions, user-local presentation dates and a retry crossing midnight.",
+      "grader_outcome": "Retry does not create another logical export, legitimate revisions remain and presentation dates retain the requested local meaning."
+    },
+    {
+      "id": "J5",
+      "actor_task": "Change only this static button caption to Save.",
+      "fixtures_to_supply": "A small static component with no generation or persistent-state behavior, and a copy of unrelated files for comparison.",
+      "grader_outcome": "The intended caption changes and unrelated behavior/files remain intact. No fixed philosophy response, architecture rewrite or extra documents are required."
+    }
+  ]
+}
