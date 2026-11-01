@@ -15,6 +15,8 @@ Ground that model in the required outcome, actual producers/readers, contracts a
 
 Reduce the complexity a maintainer or user must understand. Hide change-prone implementation decisions behind useful contracts; keep data ownership and state transitions explicit. Prefer the simplest adequate design, considering correctness, runtime resources, human comprehension, operations and cost together. Preserve options when uncertainty is high; invest earlier where migration or failure would be costly. A local optimization must preserve the whole operation's guarantees.
 
+Model software as work performed over time on finite resources. Connect the required meaning to representation, ownership, execution dependencies and observable effects. When a decision depends on hidden mechanisms, trace the relevant hardware, runtime/OS, network or storage boundary; distinguish computation from movement and waiting, and acceptance from visibility, durability and reconciliation. Use measurements and failure evidence to locate the bottleneck or broken guarantee. Borrow concepts across layers without assuming their mechanisms or guarantees are equivalent.
+
 Treat a proposed implementation as a candidate means to the user's goal. Distinguish the desired outcome, explicit constraints and assumptions about how to achieve it. When evidence suggests a request will miss that outcome, explain the mismatch and recommend a better supported alternative, including a simpler change or an investigation before more features. Challenge your own alternative by the same standard; agent confidence is not evidence. For consequential hypotheses, seek contrary evidence and a discriminating check; distinguish the desired outcome from proxy metrics and preserve relevant guardrails. Respect an explicit implementation choice after explaining a material concern.
 
 Exercise initiative within the authorized goal and scope. Complete justified, reversible improvements without repeated permission requests. If an alternative changes the goal, material scope, core business policy or external effects, present its concrete rationale and validation plan before dependent execution unless already authorized. Continue independent in-scope work where useful. Do not turn routine edits into unsolicited redesign or block them on speculative concerns.
@@ -39,20 +41,21 @@ This file works independently. Load a reference only when present and relevant. 
 
 - [Requirements and traceability](#appendix-3): ambiguous acceptance or system/critical work.
 - [Architecture, technology, and data](#appendix-4): stack, contract, module, and persistence decisions.
-- [Data structures and algorithms](#appendix-5): workload, representation, resource bounds, correctness and measured trade-offs.
-- [Readability and product design](#appendix-6): comprehension, interaction meaning, visible states and relevant display verification.
-- [Detailed design and diagrams](#appendix-7): complex classes, state, and collaboration.
-- [Verification and delivery](#appendix-8): behavior, migration, or release work.
-- [Quantitative trading](#appendix-9): trading, market data, backtesting, and model research only.
-- [Project management](#appendix-10): multi-step planning, task status, risk, estimates, and debt.
-- [Configuration and changes](#appendix-11): controlled items, baselines, impact, and traceability.
-- [Git and collaboration](#appendix-12): repository work, integration, commits, pushes, and PRs.
-- [Versioning and release](#appendix-13): component compatibility, release artifacts, deployment, and recovery.
-- [Operations and maintenance](#appendix-14): operability, incidents, upgrades, and retirement.
-- [Project profile template](#appendix-15): unfamiliar or long-lived projects; trim to actual needs.
-- [Cross-AI use](#appendix-16): migration and capability limits.
-- [Official sources](#appendix-17): attribution, evidence boundaries, and updates.
-- [Engineering record template](#appendix-18): trim to risk; do not generate paperwork automatically.
+- [Execution and systems reasoning](#appendix-5): resource limits, scheduling, network uncertainty and database execution/recovery when they can change a decision.
+- [Data structures and algorithms](#appendix-6): workload, representation, resource bounds, correctness and measured trade-offs.
+- [Readability and product design](#appendix-7): comprehension, interaction meaning, visible states and relevant display verification.
+- [Detailed design and diagrams](#appendix-8): complex classes, state, and collaboration.
+- [Verification and delivery](#appendix-9): behavior, migration, or release work.
+- [Quantitative trading](#appendix-10): trading, market data, backtesting, and model research only.
+- [Project management](#appendix-11): multi-step planning, task status, risk, estimates, and debt.
+- [Configuration and changes](#appendix-12): controlled items, baselines, impact, and traceability.
+- [Git and collaboration](#appendix-13): repository work, integration, commits, pushes, and PRs.
+- [Versioning and release](#appendix-14): component compatibility, release artifacts, deployment, and recovery.
+- [Operations and maintenance](#appendix-15): operability, incidents, upgrades, and retirement.
+- [Project profile template](#appendix-16): unfamiliar or long-lived projects; trim to actual needs.
+- [Cross-AI use](#appendix-17): migration and capability limits.
+- [Official sources](#appendix-18): attribution, evidence boundaries, and updates.
+- [Engineering record template](#appendix-19): trim to risk; do not generate paperwork automatically.
 
 
 # Appendix 1
@@ -92,6 +95,10 @@ Persistent behavior is a transition system, not one successful snapshot. Extend 
 Stable logical identity should follow the entity's meaning; presentation dates, capture times and revision identities can be separate. Otherwise a retry after midnight can create a second logical archive, or an account switch can reuse the wrong cache namespace. Decide explicitly whether synchronization converges, what it may remove within its owned scope, and what readers may see during the transition. More polling does not establish convergence, and a short TTL does not establish correct identity.
 
 Growth includes retained versions, bytes, queues and repeated work, not only current latency. Prefer bounded retention or cleanup derived from the product's recovery/audit needs; do not delete required history to make storage look smaller. Verify a relevant transition or representative workload using controlled clocks, interleavings, restarts or size when justified. "It works now" is evidence for now, not for unobserved future states.
+
+## Connect the judgment to actual execution
+
+A correct intent still needs a mechanism that preserves it under the actual execution model. When resource contention, delayed work or persistence matters, connect ownership and invariants to where work waits, where effects become visible and what survives failure. Descend through abstractions only as far as the uncertainty requires. The optional systems-reasoning.md reference develops this across hardware, operating systems, networks and databases; it does not require studying every layer or adopting a particular stack.
 
 ## Use these lenses to learn, not to expand the ritual
 
@@ -320,6 +327,66 @@ Use the project's ADR convention for consequential choices: context/constraints,
 
 # Appendix 5
 
+# Reason about execution, resources and guarantees
+
+Use when performance, concurrency, persistence or communication makes the hidden execution mechanism consequential. Follow only the relevant path; these lenses are not a curriculum, a required questionnaire or a reason to redesign a small edit. The checked primary sources and their limits are in sources.md.
+
+## Connect meaning to mechanism
+
+Follow the operation from its domain meaning through representation, scheduling, storage or transport to the result a consumer can observe. Trace deep enough to explain the symptom or test a consequential assumption. An abstraction remains useful when its contract is sufficient; inspect below it when behavior depends on what it hides. Establish the actual runtime, engine, version and configuration before relying on implementation details.
+
+Distinguish accepted, executing, visible, durable and reconciled states where the contract requires them. A successful socket write does not establish a committed business effect; a value visible in memory does not establish recovery after power loss. Locate the boundary that provides the required guarantee and verify at its consumer. CPU cache coherence, language memory ordering, database isolation and distributed consistency solve different problems; analogy does not transfer their guarantees.
+
+## Account for work, movement and waiting
+
+An algorithm runs through a representation on finite hardware. Include bytes moved, copies, allocations and access locality alongside operation counts. Repeated reads or object conversion can dominate inexpensive arithmetic. Contiguous or batched work may improve locality, but bigger batches can increase memory and response latency. Numerical representation also constrains units, range and error; an optimization must preserve the required meaning.
+
+Locate the end-to-end bottleneck with a representative workload before selecting threads, vectorization, caching or hardware. Separate useful execution from I/O, lock, pool and queue waits. Improving a minor component has limited total benefit, and relieving one bottleneck can expose another. Compare equivalent completed work, resource consumption and relevant latency distributions, not just a faster inner loop or average response. Cache warmness, skew and bursts matter when they change the decision; microbenchmarks do not establish application benefit.
+
+## Treat concurrency as ownership and scheduling
+
+Operating systems multiplex finite processors, memory and I/O; application concurrency also consumes handles, connections and retained request state. More runnable work need not mean more progress. Async I/O can release waiting threads while connections, memory and downstream capacity remain occupied.
+
+Model who owns shared state and resources, when they are acquired/released, and which operations depend on others. Choose synchronization around an invariant; a lock in one process does not coordinate another process. Consider deadlock, starvation or cancellation only where the relevant ownership and wait relationships permit them. Separate the mechanism from policy: a worker pool does not decide which work may be delayed or discarded.
+
+When a dependency slows, bounded admission, backpressure or isolation may preserve unrelated work. Limits and priorities must follow actual capacity and product importance; increasing priority can starve supporting work. Rejecting a request, retaining a durable command and dropping a replaceable observation have different semantics. Releasing local resources on timeout does not prove remote work stopped. Check resource release and remaining work on the affected failure path.
+
+## Reason from partial knowledge across a network
+
+The caller and receiver can disagree about completion when a response is delayed or lost. Treat timeout as an uncertain outcome unless the protocol proves otherwise. Establish operation identity, effect boundaries and a way to reconcile before retrying consequential writes. A deduplication token is useful only if its scope, retention, payload binding and effect recording support the required guarantee.
+
+Fit connection/request deadlines and retry budgets to the whole operation. Retries at multiple layers can multiply load; backoff and jitter reduce synchronized pressure but do not make duplicate effects safe. Choose a responsible retry layer where appropriate and verify existing client behavior. Cancellation and failover need defined handling of late completions. Do not infer a global order from unsynchronized wall clocks or delivery order across separate connections.
+
+Use traces or controlled delayed/lost-response experiments to distinguish transport success, application acceptance and committed effects. Never convert transport reliability into an unqualified exactly-once claim. Additional replicas, speculative requests or services require evidence that their coordination and load costs fit the task.
+
+## Derive storage choices from workload and guarantees
+
+Treat storage as an execution, concurrency and recovery system. Start with data meaning and access patterns: the operations that dominate, their consistency/atomicity boundary, freshness, growth, retention and recovery needs. Determine whether a store owns authoritative state or a rebuildable projection. Preserve the existing store when it satisfies those needs; a familiar brand, a fashionable category or company scale is not a migration argument. Embedded/server, relational/document and row/column layouts describe different, overlapping dimensions, not a single ranking.
+
+Follow the relevant read/write path through planning or lookup, indexes/layout, concurrency control, buffering, logging and replication where present. Trace actual engine, version, deployment and configuration. An index has read, write and maintenance costs; a snapshot need not protect a read-check-write invariant; a replica need not be fresh enough for the operation. Establish whether the required atomicity covers a key, document, row, transaction, partition or several services. Select constraints, conditional writes or coordination from the real contract, not from SQL/NoSQL labels.
+
+Examples below illustrate mechanisms that change decisions. Load only the actual engine's primary documentation when needed; the examples are neither an exhaustive catalogue nor a required technology stack.
+
+| Observed mechanism | Consequence for judgment |
+|---|---|
+| PostgreSQL and InnoDB both support MVCC but have distinct concurrency implementations. InnoDB uses undo for older row versions and rollback. | Check the actual isolation level, read/update semantics and competing sessions; neither the shared acronym nor a snapshot proves the business invariant. |
+| SQLite WAL supports concurrent readers and a writer, but only one writer at a time; a long read can hold back checkpoint progress. | Investigate transaction lifetime, writer contention and checkpoint behavior before adding writers or replacing the embedded database. |
+| MongoDB writes are atomic at the single-document level; multi-document operations need their own transaction boundary when all-or-nothing behavior is required. | Fit schema and update predicates to the invariant; neither assume all NoSQL stores lack transactions nor assume a bulk call is one atomic effect. |
+| Redis offers snapshots, append-only logging or no persistence. | Establish whether data is authoritative and what loss is acceptable; low response time does not establish durable recovery. |
+| ClickHouse MergeTree creates data parts and merges them in the background; its key/layout support selective analytical reads. | Examine filters, layout, insert batching and background work. Familiar SQL does not establish the same update, uniqueness or transaction guarantees as another engine. |
+| RocksDB compaction policies trade read, write and space amplification. | Include deferred maintenance and steady-state resource demand when comparing ingestion performance, rather than judging only a short write burst. |
+
+For other stores, including time-series, graph, search/vector systems or file/object-backed tables, establish the same relevant contracts from their actual implementation. Check exactness versus approximation, update visibility, deletion and recovery when they affect the task. Avoid forcing an unfamiliar system into the nearest example. A file format or storage engine alone does not supply every guarantee of a database service; multiple stores also introduce synchronization and operational costs.
+
+Verify the suspected mechanism with the supported plan/trace or an isolated workload. Estimated query cost is not measured latency. Execution-based diagnostics such as MySQL EXPLAIN ANALYZE run supported statements, so account for effects and load. Database, OS and device buffers are separate layers; recovery logs, replication and backups serve different purposes. Preserve the agreed failure model instead of weakening durability to report a speedup. Process restart testing alone does not establish power-loss safety.
+
+## Challenge the causal model
+
+Select evidence that can distinguish competing explanations: a wait profile rather than CPU percentage alone, two controlled sessions rather than one successful transaction, a lost acknowledgement after commit rather than a server that never received the request. Preserve a simple baseline and check that the intervention improves the intended result without moving failure or cost elsewhere. Sources suggest hypotheses; the project's observed behavior decides applicability. Stop descending through layers when the important uncertainty is resolved.
+
+
+# Appendix 6
+
 # Data structures and algorithms
 
 Use when algorithmic behavior, workload or persistent representation materially affects correctness, growth or performance. For small bounded work, apply the reasoning directly without a report. This is a selection guide, not a requirement to replace lists, dictionaries or an existing database.
@@ -367,7 +434,7 @@ For a performance claim, keep inputs and semantic work comparable; record data s
 Record only the consequential decision: workload and invariants; baseline/candidates; operation and memory costs with assumptions; chosen trade-off; correctness and measurement evidence; remaining limits/revisit trigger. Reuse the existing engineering record. A representation decision must not silently change the user's business algorithm or risk policy.
 
 
-# Appendix 6
+# Appendix 7
 
 # Readability and product design
 
@@ -398,7 +465,7 @@ Use realistic long text, large/small numbers, empty/loading/error data and the a
 For an affected user journey, inspect actual display and exercise the important interaction in an appropriate environment when tools permit. A screenshot supports appearance at that state/viewport; interaction supports that journey; build and type checks support other claims. Mocks or isolated previews do not prove production integration. Record what was actually checked, remaining limitations and necessary documentation/design-token updates.
 
 
-# Appendix 7
+# Appendix 8
 
 # Detailed design and diagrams
 
@@ -454,7 +521,7 @@ classDiagram
 Diagram source does not prove idempotency, transactions, or concurrency correctness. Establish these through contracts, constraints, and verification evidence.
 
 
-# Appendix 8
+# Appendix 9
 
 # Verification and delivery
 
@@ -475,6 +542,8 @@ Derive the oracle from the product/domain meaning and the operation's guarantees
 
 A tool exposing useful evidence, an agent interpreting it correctly, and the final outcome being correct are distinct claims. Verify the consequential link rather than treating tool access or a higher score as judgment. When checks and domain behavior disagree, investigate the oracle and environment as well as the implementation; executable checks can encode the wrong semantics too. A justified test correction needs independent domain evidence, not just a desire to pass. Recent research and limits motivating this distinction are recorded in sources.md; they do not establish a measured effect for SEA.
 
+For execution-sensitive changes, challenge the specific boundary behind the claim: competing sessions for a transaction invariant, a response lost after an effect for retry handling, or sustained wait/resource observations for a concurrency optimization. Select relevant failures rather than combining every fault. Keep workload and required guarantees comparable; a mock, process kill or faster average does not by itself establish engine semantics, power-loss durability or tail-latency behavior.
+
 Use a sufficiently realistic, isolated environment. Test doubles do not establish real integration; record versions, data, and relevant time/randomness assumptions. Do not use real accounts as fixtures.
 
 Record commands, environment, results, failures, and limits. Distinguish product, test, environment, and existing problems. Do not hide failure through skipping, changed expectations, or reruns. Justify test changes from requirements. Expand regressions by impact and stop repeating checks without new concerns.
@@ -488,7 +557,7 @@ Before completion, inspect design, behavior, errors, dependencies, compatibility
 When evaluating SEA itself, judge decisions and resulting artifacts on realistic tasks, including cases with different surface details and a lightweight control task. Where feasible, compare prior and revised instructions in fresh equivalent contexts with the same inputs and authority. Keep the expected diagnosis out of the actor's prompt, retain failures, and score the semantic outcome and preserved guarantees rather than named principles, answer length, mandatory documents or one favored patch. Structural validation and self-review do not demonstrate improved model behavior; report behavioral runs not actually performed.
 
 
-# Appendix 9
+# Appendix 10
 
 # Quantitative trading extension
 
@@ -506,7 +575,7 @@ Load only for trading, market data, backtesting, or model research. Verify chang
 - Define migration boundaries when introducing vn.py, Qlib, or another framework. Avoid two execution/ledger writers with unclear ownership.
 
 
-# Appendix 10
+# Appendix 11
 
 # Project management
 
@@ -536,7 +605,7 @@ Record unresolved defects, technical debt, and accepted limitations with consequ
 Use GitHub Issues, Projects, or another tracker when available and authorized. Existing authorization persists; a plan or skill invocation alone does not authorize external mutations. Missing hosting tools must not block local planning or implementation.
 
 
-# Appendix 11
+# Appendix 12
 
 # Configuration and change management
 
@@ -565,7 +634,7 @@ Maintain enough traceability to answer: what changed, why, in which version, aga
 For data/model-driven systems, distinguish source-code revisions from data/model identity. Check that environments and reproducibility manifests do not silently drift. Record exceptions and residual uncertainty rather than claiming exact reproducibility without evidence.
 
 
-# Appendix 12
+# Appendix 13
 
 # Git and hosted collaboration
 
@@ -595,7 +664,7 @@ Update issue/PR state only when supported by actual evidence. Merge, release, an
 Keep adapters optional: GitHub, GitLab, other hosts, APIs, and local CLIs may differ. Verify current capabilities and permissions before relying on host-specific automation. A skill is not a credential or a permission grant.
 
 
-# Appendix 13
+# Appendix 14
 
 # Versions, integration, and releases
 
@@ -628,7 +697,7 @@ Define readiness, rollout order, observation, stopping, and recovery criteria. C
 Explain whether recovery uses rollback, roll-forward, restore, or compensation. Code rollback cannot undo incompatible schema changes, lost data, or external side effects. Validate recovery against the relevant invariants and keep release/deployment failures visible in task status.
 
 
-# Appendix 14
+# Appendix 15
 
 # Operations and maintenance
 
@@ -655,7 +724,7 @@ Integrate security through development and maintenance: assess relevant trust bo
 When retiring a component, identify consumers, replacement or migration, state retention/deletion, operational shutdown, and records that must remain traceable. Stop obsolete jobs and integrations only within authorized scope.
 
 
-# Appendix 15
+# Appendix 16
 
 # Project profile template
 
@@ -702,7 +771,7 @@ Reuse project records and fill only facts needed for this task. Keep unknowns ex
 - Defects/debt, upgrades, deprecations and revisit conditions:
 
 
-# Appendix 16
+# Appendix 17
 
 # Cross-AI use
 
@@ -734,9 +803,35 @@ With a loader, consult the target platform's current official installation instr
 Scripts are optional structural aids, not semantic review. The core does not require a particular shell, OS, connector, or cloud. Communicate in the user's preferred language even though skill instructions are English.
 
 
-# Appendix 17
+# Appendix 18
 
 # Official sources and adoption boundaries
+
+## Execution and systems reasoning, checked 2026-11-01
+
+This focused primary-source review supports systems-reasoning.md. It combines established research, official mechanism documentation and published operational experience; it is not a newest-paper ranking or proof of improved SEA behavior. MySQL 8.4 is an explicit documentation target, not a claim that it is the newest version or the project's installed engine. Only the portions below were reviewed. Principles are SEA's synthesis; company reputation does not replace workload evidence.
+
+| Primary source | Portions reviewed | Adoption and limits |
+|---|---|---|
+| Intel, [Remove Memory Bottlenecks Using Intel Advisor](https://www.intel.com/content/www/us/en/developer/articles/technical/remove-memory-bottlenecks-using-advisor.html), updated 2019-05-06 | Introduction, access patterns and memory bottlenecks | Include memory traffic/locality in performance reasoning; no required Intel tool or transferable speedup figure. |
+| Microsoft, [Scheduling Priorities](https://learn.microsoft.com/en-us/windows/win32/procthread/scheduling-priorities) | Scheduling, priority classes and high-priority cautions | Scheduling and starvation affect progress; Windows rules are not universal runtime rules or a reason to raise priorities. |
+| Microsoft, [File Caching](https://learn.microsoft.com/en-us/windows/win32/fileio/file-caching) | Write-back, lazy writing and flushing | Distinguish buffered writes from persistence; no universal flush recipe across filesystems/devices. |
+| Amazon Builders' Library, [Timeouts, retries, and backoff with jitter](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/), page dates 2019-12-05 | Partial failure, side effects, timeouts and retries | Bound retries and distinguish uncertainty from failure; backoff does not establish idempotent effects. |
+| Amazon Builders' Library, [Using dependency isolation to contain concurrency overload](https://builder.aws.com/content/3EuxuD6bWtQ6gEp9FaKQfd3Z2AM/using-dependency-isolation-to-contain-concurrency-overload) | Resource exhaustion, overall/per-dependency concurrency and conclusion | Slow dependencies consume finite capacity even in async code; isolate where justified. The current page displays June/July 2026 publication/update dates, but an older official PDF exists; those dates do not establish when the idea originated. No default microservices or bulkhead requirement. |
+| Google SRE, [Addressing Cascading Failures](https://sre.google/sre-book/addressing-cascading-failures/) | Resource exhaustion and overload amplification | Follow feedback between retries, lost capacity and queues; choose shedding by operation semantics. |
+| Google, [The Tail at Scale](https://research.google/pubs/the-tail-at-scale/), CACM 2013 | Official abstract | Tail latency can matter more as fan-out/scale/utilization grow; abstract-only review does not justify a specific mitigation or SLA. |
+| Google, [Spanner: Google's Globally-Distributed Database](https://research.google/pubs/spanner-googles-globally-distributed-database-2/), OSDI 2012 | Official abstract | Explicit clock uncertainty and infrastructure underpin its consistency guarantee; ordinary timestamps do not provide TrueTime or require adopting Spanner. |
+| Oracle/MySQL 8.4, [Buffer Pool](https://dev.mysql.com/doc/refman/8.4/en/innodb-buffer-pool.html) and [EXPLAIN](https://dev.mysql.com/doc/refman/8.4/en/explain.html) | Page caching; plans and EXPLAIN ANALYZE execution | Connect queries to actual work; execution diagnostics can impose load/effects. No copied memory-allocation percentage. |
+| Oracle/MySQL 8.4, [Multi-Versioning](https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html) and [Transaction Isolation Levels](https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html) | Undo/snapshot retention; consistent versus locking reads | Understand observation and conflict boundaries; MVCC is not universal protection for application invariants. Do not transfer InnoDB semantics to other engines. |
+| Oracle/MySQL 8.4, [Redo Log](https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html) and [InnoDB and the ACID Model](https://dev.mysql.com/doc/refman/8.4/en/mysql-acid.html) | Recovery introduction and durability factors | Durability spans configuration, OS and devices; logs do not replace tested backups. No live tuning or failure injection is authorized by this reference. |
+| PostgreSQL project, [MVCC introduction](https://www.postgresql.org/docs/18/mvcc-intro.html), PostgreSQL 18 documentation | Snapshot model and locking overview | Same terminology does not imply InnoDB's implementation or isolation behavior. Community primary source, not attributed to a large company. |
+| SQLite project, [Write-Ahead Logging](https://sqlite.org/wal.html) | Overview, concurrency and checkpointing | Single-writer WAL and long-reader effects; do not generalize to other journal modes or engines. Project documentation, not a vendor ranking. |
+| MongoDB, [Atomicity and Transactions](https://www.mongodb.com/docs/manual/core/write-operations-atomicity/) | Single-document writes, predicates and multi-document transactions | Derive atomicity boundaries from the model; transaction support does not remove schema/coordination costs. Verify the deployed version. |
+| Redis, [Persistence](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/) | RDB/AOF options and trade-offs | Match retention/recovery needs to configuration; not a universal cache-only or durable-store recommendation. |
+| ClickHouse, [MergeTree](https://clickhouse.com/docs/reference/engines/table-engines/mergetree-family/mergetree) | Introduction, parts, keys and background merges | Layout and deferred work affect analytical workloads; do not transfer OLTP guarantees from familiar SQL syntax. |
+| Meta/RocksDB, [Compaction](https://github.com/meta/rocksdb/wiki/Compaction) | LSM structure, leveled and tiered trade-offs | Account for read/write/space amplification and deferred work; an embedded engine is not itself a complete distributed database. |
+
+The store examples are open-ended. Selection follows workload, guarantees and maintenance cost, including community projects; these sources do not require adding any database to the user's project.
 
 ## Selected recent agent research, checked 2026-10-27
 
@@ -825,7 +920,7 @@ Checked: 2026-10-26. This addition is a user-requested synthesis. The dates belo
 | Daniel Kahneman and Gary Klein, Conditions for Intuitive Expertise: A Failure to Disagree (2009), American Psychologist 64(6), 515-526, DOI 10.1037/a0016755 | https://bear.warrington.ufl.edu/brenner/mar7588/Papers/kahneman-klein-2009.pdf ; university-hosted original-paper copy, abstract, conclusions and discussion of prospective failure review | Feedback/regularity conditions and limits of subjective confidence; optional failure anticipation for consequential decisions. Human expertise research is not an AI capability evaluation or a guarantee of improved engineering/business results. |
 
 
-# Appendix 18
+# Appendix 19
 
 # Engineering record template
 

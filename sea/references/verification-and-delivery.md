@@ -17,6 +17,8 @@ Derive the oracle from the product/domain meaning and the operation's guarantees
 
 A tool exposing useful evidence, an agent interpreting it correctly, and the final outcome being correct are distinct claims. Verify the consequential link rather than treating tool access or a higher score as judgment. When checks and domain behavior disagree, investigate the oracle and environment as well as the implementation; executable checks can encode the wrong semantics too. A justified test correction needs independent domain evidence, not just a desire to pass. Recent research and limits motivating this distinction are recorded in sources.md; they do not establish a measured effect for SEA.
 
+For execution-sensitive changes, challenge the specific boundary behind the claim: competing sessions for a transaction invariant, a response lost after an effect for retry handling, or sustained wait/resource observations for a concurrency optimization. Select relevant failures rather than combining every fault. Keep workload and required guarantees comparable; a mock, process kill or faster average does not by itself establish engine semantics, power-loss durability or tail-latency behavior.
+
 Use a sufficiently realistic, isolated environment. Test doubles do not establish real integration; record versions, data, and relevant time/randomness assumptions. Do not use real accounts as fixtures.
 
 Record commands, environment, results, failures, and limits. Distinguish product, test, environment, and existing problems. Do not hide failure through skipping, changed expectations, or reruns. Justify test changes from requirements. Expand regressions by impact and stop repeating checks without new concerns.

@@ -69,6 +69,7 @@ Use goals, constraints, invariants and evidence to choose a design. The updated 
 Load details only when relevant:
 
 - [Engineering judgment](sea/references/engineering-judgment.md): provenance, contextual meaning, invariants, evolution, evidence and constructive challenge.
+- [Execution and systems reasoning](sea/references/systems-reasoning.md): connect finite resources, OS scheduling, network uncertainty and database execution to actual guarantees; primary sources and limits are recorded in the skill.
 - [Engineering methods](sea/references/engineering-workflow.md): preserved lifecycle techniques, selected only when useful to the task.
 - [Data structures and algorithms](sea/references/data-structures-and-algorithms.md): candidate representations, costs, bounds and verification.
 - [Readability and product design](sea/references/readability-and-product-design.md): maintainable contracts and useful user journeys with distinct evidence.

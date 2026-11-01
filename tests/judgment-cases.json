@@ -33,6 +33,37 @@
       "actor_task": "Change only this static button caption to Save.",
       "fixtures_to_supply": "A small static component with no generation or persistent-state behavior, and a copy of unrelated files for comparison.",
       "grader_outcome": "The intended caption changes and unrelated behavior/files remain intact. No fixed philosophy response, architecture rewrite or extra documents are required."
+    },
+    {
+      "id": "S1",
+      "actor_task": "Improve this report generator with the supplied representative dataset.",
+      "fixtures_to_supply": "Runnable generator, input/output contract, timings and call counts for reading, conversion and computation; data includes skew and a cold/warm run.",
+      "grader_outcome": "Equivalent output and demonstrated end-to-end improvement on the supplied workload, or a justified evidence limit. Diagnose from measurements; do not reward a particular optimization or hardware purchase."
+    },
+    {
+      "id": "S2",
+      "actor_task": "Keep the application responsive when the document service slows down.",
+      "fixtures_to_supply": "Isolated service with two endpoints, one slow dependency, controllable delays, bounded test load and observable resource counts.",
+      "grader_outcome": "Unrelated requests retain their specified behavior under the controlled slowdown; resource growth is bounded and requests have defined outcomes. No default worker-count increase, dropped durable commands or unnecessary service split."
+    },
+    {
+      "id": "S3",
+      "actor_task": "Make shipment creation recover correctly after a timeout.",
+      "fixtures_to_supply": "Fake remote service with durable effects, scoped request identity and lookup; a controllable lost response after commit and a process restart.",
+      "grader_outcome": "Reconciliation converges to the single intended shipment and preserves legitimate distinct requests. Unknown is not presented as definitely failed; a retry token alone is insufficient if the effect is duplicated."
+    },
+    {
+      "id": "S4",
+      "actor_task": "Fix occasional double reservations in this application.",
+      "fixtures_to_supply": "Disposable database matching the documented engine/version, two competing clients, transaction code and an explicit capacity invariant. Use controlled interleavings; do not label the suspected race.",
+      "grader_outcome": "Capacity is preserved for competing writers and valid requests still succeed. Verify actual engine behavior rather than treating a single-process lock, snapshot read or mock as proof. The chosen remedy must fit the supplied engine; no unrequested database migration.",
+      "engine_variants": "Use equivalent invariant tasks in separate fresh contexts with SQLite WAL, PostgreSQL, or MongoDB fixtures as available. Pin actual versions. Supply equivalent business requirements but engine-specific raw artifacts; do not demand the same patch or substitute a SQL mock for another engine. Record unavailable variants as not executed."
+    },
+    {
+      "id": "S5",
+      "actor_task": "Review this proposed database speedup against our recovery requirement.",
+      "fixtures_to_supply": "Current/proposed flush configuration, matching official version documentation, a requirement to retain acknowledged commits across power loss and a process-restart-only test report.",
+      "grader_outcome": "Correctly assesses the durability trade-off and limits of the supplied test, with a concrete appropriately isolated validation plan. Does not weaken the requirement, claim a process restart simulates power loss, or run destructive live experiments."
     }
   ]
 }

@@ -34,6 +34,10 @@ Stable logical identity should follow the entity's meaning; presentation dates, 
 
 Growth includes retained versions, bytes, queues and repeated work, not only current latency. Prefer bounded retention or cleanup derived from the product's recovery/audit needs; do not delete required history to make storage look smaller. Verify a relevant transition or representative workload using controlled clocks, interleavings, restarts or size when justified. "It works now" is evidence for now, not for unobserved future states.
 
+## Connect the judgment to actual execution
+
+A correct intent still needs a mechanism that preserves it under the actual execution model. When resource contention, delayed work or persistence matters, connect ownership and invariants to where work waits, where effects become visible and what survives failure. Descend through abstractions only as far as the uncertainty requires. The optional systems-reasoning.md reference develops this across hardware, operating systems, networks and databases; it does not require studying every layer or adopting a particular stack.
+
 ## Use these lenses to learn, not to expand the ritual
 
 Select the assumption most likely to change the decision, build only enough of the model to examine it, and seek evidence that could show the preferred solution wrong. If that evidence is missing, use a bounded reversible investigation or state the remaining limit; do not fill the gap with confidence, extra abstraction or more prose. Record the consequential decision, its basis and a useful verification result rather than an internal reasoning transcript or a completed philosophy form.

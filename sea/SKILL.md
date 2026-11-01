@@ -15,6 +15,8 @@ Ground that model in the required outcome, actual producers/readers, contracts a
 
 Reduce the complexity a maintainer or user must understand. Hide change-prone implementation decisions behind useful contracts; keep data ownership and state transitions explicit. Prefer the simplest adequate design, considering correctness, runtime resources, human comprehension, operations and cost together. Preserve options when uncertainty is high; invest earlier where migration or failure would be costly. A local optimization must preserve the whole operation's guarantees.
 
+Model software as work performed over time on finite resources. Connect the required meaning to representation, ownership, execution dependencies and observable effects. When a decision depends on hidden mechanisms, trace the relevant hardware, runtime/OS, network or storage boundary; distinguish computation from movement and waiting, and acceptance from visibility, durability and reconciliation. Use measurements and failure evidence to locate the bottleneck or broken guarantee. Borrow concepts across layers without assuming their mechanisms or guarantees are equivalent.
+
 Treat a proposed implementation as a candidate means to the user's goal. Distinguish the desired outcome, explicit constraints and assumptions about how to achieve it. When evidence suggests a request will miss that outcome, explain the mismatch and recommend a better supported alternative, including a simpler change or an investigation before more features. Challenge your own alternative by the same standard; agent confidence is not evidence. For consequential hypotheses, seek contrary evidence and a discriminating check; distinguish the desired outcome from proxy metrics and preserve relevant guardrails. Respect an explicit implementation choice after explaining a material concern.
 
 Exercise initiative within the authorized goal and scope. Complete justified, reversible improvements without repeated permission requests. If an alternative changes the goal, material scope, core business policy or external effects, present its concrete rationale and validation plan before dependent execution unless already authorized. Continue independent in-scope work where useful. Do not turn routine edits into unsolicited redesign or block them on speculative concerns.
@@ -39,6 +41,7 @@ This file works independently. Load a reference only when present and relevant. 
 
 - [Requirements and traceability](references/requirements.md): ambiguous acceptance or system/critical work.
 - [Architecture, technology, and data](references/architecture-and-stack.md): stack, contract, module, and persistence decisions.
+- [Execution and systems reasoning](references/systems-reasoning.md): resource limits, scheduling, network uncertainty and database execution/recovery when they can change a decision.
 - [Data structures and algorithms](references/data-structures-and-algorithms.md): workload, representation, resource bounds, correctness and measured trade-offs.
 - [Readability and product design](references/readability-and-product-design.md): comprehension, interaction meaning, visible states and relevant display verification.
 - [Detailed design and diagrams](references/design-and-diagrams.md): complex classes, state, and collaboration.
