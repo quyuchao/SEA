@@ -47,7 +47,7 @@ This file works independently. Load a reference only when present and relevant. 
 - [Architecture, technology, and data](references/architecture-and-stack.md): stack, contract, module, and persistence decisions.
 - [Execution and systems reasoning](references/systems-reasoning.md): resource limits, scheduling, network uncertainty and database execution/recovery when they can change a decision.
 - [Data structures and algorithms](references/data-structures-and-algorithms.md): workload, representation, resource bounds, correctness and measured trade-offs.
-- [Readability and product design](references/readability-and-product-design.md): comprehension, interaction meaning, visible states and relevant display verification.
+- [Readability and product design](references/readability-and-product-design.md): comprehension, interaction meaning, visible states, aesthetic and motion judgment, and relevant display verification.
 - [Detailed design and diagrams](references/design-and-diagrams.md): complex classes, state, and collaboration.
 - [Verification and delivery](references/verification-and-delivery.md): behavior, migration, or release work.
 - [Quantitative trading](references/quant-trading.md): trading, market data, backtesting, and model research only.

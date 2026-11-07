@@ -22,6 +22,14 @@ Use labels, focus order, keyboard operation, visible focus, suitable contrast, s
 
 Use realistic long text, large/small numbers, empty/loading/error data and the affected screen widths. Check overflow, table scrolling, fixed actions, responsive hierarchy and useful failure recovery. Keep implementation details out of product language unless they help a user make a meaningful decision.
 
+## Aesthetic and motion judgment
+
+Aesthetics are plural. A trading terminal, a children's app, an editorial page and a developer tool ask for different things, and each minimal, ornate, playful or austere style is coherent under its own rules. Name the intent first (calm, precise, urgent, playful, trustworthy), then choose means that serve it, and judge a design by fit to purpose and internal consistency rather than fashion or the agent's own preference. Learn the owner's taste when it is visible; when it is not, choose a restrained default and say what was assumed. Distrust the generic look that appears everywhere by default; distinctiveness should express the product's identity, not novelty for its own sake.
+
+Motion is information before it is decoration. Ask what it tells the user: that an action had an effect, where something went, that the system is working, what changed. If removing it loses nothing, remove it. Match its weight to frequency: an action repeated all day needs less than a rare moment. Let duration follow distance and importance, let elements that move together share an order the eye can follow, and keep one product's motion consistent, since consistency usually matters more than any single curve. Motion also spends attention, battery and frame time, so it must never block the task, and it must degrade for reduced-motion preferences and slow devices.
+
+Taste is tested by use, not by a first glance. Watch the result at real speed, repeated many times, in the real context; a flourish that delights once and grates on the tenth viewing is a defect. Treat the agent's own sense of beauty as a hypothesis, keep options open for the owner's judgment, and record the intent so a later change can be checked against it.
+
 ## Evidence and completion
 
 For an affected user journey, inspect actual display and exercise the important interaction in an appropriate environment when tools permit. A screenshot supports appearance at that state/viewport; interaction supports that journey; build and type checks support other claims. Mocks or isolated previews do not prove production integration. Record what was actually checked, remaining limitations and necessary documentation/design-token updates.
