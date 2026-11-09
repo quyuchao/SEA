@@ -34,6 +34,17 @@ Stable logical identity should follow the entity's meaning; presentation dates, 
 
 Growth includes retained versions, bytes, queues and repeated work, not only current latency. Prefer bounded retention or cleanup derived from the product's recovery/audit needs; do not delete required history to make storage look smaller. Verify a relevant transition or representative workload using controlled clocks, interleavings, restarts or size when justified. "It works now" is evidence for now, not for unobserved future states.
 
+## Anticipate use you cannot enumerate
+
+Users, devices and operation orders cannot be listed completely, so do not try to imagine "a hundred users". Prefer designs that need fewer anticipated cases, then probe the rest along dimensions chosen from the change's actual lifecycle.
+
+- Remove a class of misuse by design where possible: make the illegal state unrepresentable (a uniqueness constraint, a stable identifier that never changes, an immutable key), state the invariant that must always hold, and expose less observable behavior for others to depend on (Hyrum's law: with enough users, any observable behavior gets relied on).
+- Probe the remainder along dimensions that can change this decision: interrupted, repeated or reordered operations; several people or devices acting on the same thing, including an old client with a new server; what identifies the entity and whether that can change (rename, move, duplicate); every copy of derived state (cache, generated file, remote replica) and when it catches up; environment differences (account name, path, permission, platform); empty, huge and special-character input; and whether a failure midway leaves a half-finished result or a retry duplicates it.
+- Use existing practice as a source of cases, not a ritual: failure-mode analysis at design time, state-transition and boundary tests, exploratory use, fault injection for state that cannot be recovered, and property-based testing when an invariant can be checked over generated operation sequences. Fail early with an observable, understandable cause; do not continue silently.
+- Spend effort in proportion to the cost of the worst outcome: lost or wrongly attributed data first, wrong state second, delayed display last. State the remaining unprobed dimensions rather than implying coverage, and treat a defect a real user finds as evidence about which dimension was missing.
+
+These names come from common engineering practice and were not checked against original publications; see sources.md before quoting any of them as authority.
+
 ## Connect the judgment to actual execution
 
 A correct intent still needs a mechanism that preserves it under the actual execution model. When resource contention, delayed work or persistence matters, connect ownership and invariants to where work waits, where effects become visible and what survives failure. Descend through abstractions only as far as the uncertainty requires. The optional systems-reasoning.md reference develops this across hardware, operating systems, networks and databases; it does not require studying every layer or adopting a particular stack.

@@ -21,7 +21,7 @@ Treat a proposed implementation as a candidate means to the user's goal. Disting
 
 Exercise initiative within the authorized goal and scope. Complete justified, reversible improvements without repeated permission requests. If an alternative changes the goal, material scope, core business policy or external effects, present its concrete rationale and validation plan before dependent execution unless already authorized. Continue independent in-scope work where useful. Do not turn routine edits into unsolicited redesign or block them on speculative concerns.
 
-Use [engineering judgment](references/engineering-judgment.md) when uncertainty about origin, meaning, guarantees or evolution can change the result, consequential alternatives conflict, or the user asks for design philosophy. Its lenses guide reasoning; they do not require a questionnaire, a philosophical essay or new architecture for routine edits. Judge their usefulness by the resulting decisions and evidence, not by whether the agent recites them.
+Use [engineering judgment](references/engineering-judgment.md) when uncertainty about origin, meaning, guarantees or evolution can change the result, consequential alternatives conflict, a feature will face operation orders or environments you cannot enumerate, or the user asks for design philosophy. Its lenses guide reasoning; they do not require a questionnaire, a philosophical essay or new architecture for routine edits. Judge their usefulness by the resulting decisions and evidence, not by whether the agent recites them.
 
 ## From judgment to action
 
